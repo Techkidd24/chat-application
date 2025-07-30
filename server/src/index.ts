@@ -32,7 +32,7 @@ wss.on("connection", (currUser: userInterface) => {
             })
 
             wss.clients.forEach((client) => {
-                if (client !== currUser && client.readyState === client.OPEN) {
+                if (client.readyState === WebSocket.OPEN) {
                     client.send(outgoingMessage);
                 }
             })
