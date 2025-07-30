@@ -1,16 +1,16 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export function UsernameForm() {
+interface usernameFormProps {
+    onJoinChat: (username: string) => void
+}
+
+export function UsernameForm({ onJoinChat }: usernameFormProps) {
     const [username, setUsername] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
-    interface usernameFormProps {
-        onJoinChat: (username: string) => void
-    }
-
-    const joinFunction = ({ onJoinChat }: usernameFormProps) => {
+    const joinFunction = () => {
         if (username.trim().length < 2) {
             setError("Username must be at least 2 characters");
             return;
@@ -22,7 +22,7 @@ export function UsernameForm() {
         }
 
         onJoinChat(username.trim());
-        navigate('/');
+        navigate('/chat');
     }
 
     return (
@@ -32,7 +32,7 @@ export function UsernameForm() {
                     <div className="flex flex-col gap-4 items-center">
                         <div className="text-white">Enter your username</div>
                         <div><input className="p-2" value={username} onChange={(e) => { setUsername(e.target.value) }} type="text" placeholder="Enter username..."></input></div>
-                        <div><button className="bg-white rounded-sm p-2">Join</button></div>
+                        <div><button className="bg-white rounded-sm p-2" onClick={joinFunction}>Join</button></div>
                     </div>
                 </div>
             </div>
