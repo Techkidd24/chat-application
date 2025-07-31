@@ -31,7 +31,7 @@ export function UsernameForm({ onJoinChat }: usernameFormProps) {
                 <div className="flex justify-center items-center h-full">
                     <div className="flex flex-col gap-4 items-center">
                         <div className="text-white">Enter your username</div>
-                        <div><input className="p-2" value={username} onChange={(e) => { setUsername(e.target.value) }} type="text" placeholder="Enter username..."></input></div>
+                        <div><input className="p-2" value={username} onKeyDown={(e) => e.key === "Enter" && joinFunction()} onChange={(e) => { setUsername(e.target.value) }} type="text" placeholder="Enter username..."></input></div>
                         <div><button className="bg-white rounded-sm p-2" onClick={joinFunction}>Join</button></div>
                     </div>
                 </div>
