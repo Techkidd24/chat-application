@@ -11,6 +11,8 @@ export function UsernameForm({ onJoinChat }: usernameFormProps) {
     const navigate = useNavigate();
 
     const joinFunction = () => {
+        setError('');
+
         if (username.trim().length < 2) {
             setError("Username must be at least 2 characters");
             return;
@@ -32,6 +34,7 @@ export function UsernameForm({ onJoinChat }: usernameFormProps) {
                     <div className="flex flex-col gap-4 items-center">
                         <div className="text-white">Enter your username</div>
                         <div><input className="p-2" value={username} onKeyDown={(e) => e.key === "Enter" && joinFunction()} onChange={(e) => { setUsername(e.target.value) }} type="text" placeholder="Enter username..."></input></div>
+                        {error && <div className="text-red-500 text-sm">{error}</div>}
                         <div><button className="bg-white rounded-sm p-2" onClick={joinFunction}>Join</button></div>
                     </div>
                 </div>

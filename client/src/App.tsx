@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useState } from 'react'
 import { UsernameForm } from './components/UsernameForm'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { ChatRoom } from './components/ChatRoom';
