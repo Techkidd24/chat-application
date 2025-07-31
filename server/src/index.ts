@@ -1,4 +1,4 @@
-import { WebSocketServer, WebSocket } from "ws";
+import { WebSocketServer, WebSocket, RawData } from "ws";
 
 const wss = new WebSocketServer({ port: 8080 })
 
@@ -12,9 +12,9 @@ wss.on("connection", (currUser: userInterface) => {
     console.log("client connected");
 
     //listening for messages from THIS client
-    currUser.on("message", (data) => {
+    currUser.on("message", (data: RawData) => {
         const rawMessage = data.toString();
-        const message = JSON.parse(rawMessage)
+        const message = JSON.parse(rawMessage);
 
         if (message.type === "join") {
             //set the username for this client
@@ -31,7 +31,7 @@ wss.on("connection", (currUser: userInterface) => {
                 timestamp: new Date().toLocaleTimeString()
             })
 
-            wss.clients.forEach((client) => {
+            wss.clients.forEach((client: WebSocket) => {
                 if (client.readyState === WebSocket.OPEN) {
                     client.send(outgoingMessage);
                 }
