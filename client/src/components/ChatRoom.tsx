@@ -5,11 +5,20 @@ interface chatUsername {
     username: string;
 }
 
+interface chatMessage {
+    type: string;
+    sender?: string;
+    text: string;
+    timestamp?: number;
+}
+
 export function ChatRoom({ username }: chatUsername) {
     const [text, setText] = useState('');
-    const [messages, setMessages] = useState<string[]>([]);
+    const [messages, setMessages] = useState<chatMessage[]>([]);
     const [isConnected, setIsConnected] = useState(false);
     const wsRef = useRef<WebSocket>(null);
+    const scrollToEnd = useRef<HTMLDivElement | null>(null);
+
     const navigate = useNavigate();
 
     const handleSend = () => {
@@ -21,6 +30,12 @@ export function ChatRoom({ username }: chatUsername) {
             setText('');
         }
     }
+
+    useEffect(() => {
+        if (scrollToEnd.current) {
+            scrollToEnd.current.scrollIntoView({ behavior: "smooth" })
+        }
+    }, [messages])
 
     useEffect(() => {
         if (!username || username.trim() === '') {
@@ -39,13 +54,12 @@ export function ChatRoom({ username }: chatUsername) {
                 type: "join"
             }))
         }
-        console.log(isConnected)
 
 
         wsRef.current.onmessage = (event) => {
             const message = JSON.parse(event.data)  //json string to js object
             if (message.type === "chat") {
-                setMessages(prev => [...prev, `${message.sender} : ${message.text}`]);
+                setMessages(prev => [...prev, message]);
             }
         }
 
@@ -58,19 +72,29 @@ export function ChatRoom({ username }: chatUsername) {
 
     return (
         <>
-            <div className='h-screen bg-black'>
-                <div className='flex flex-col h-full justify-between'>
-                    <div className=''>
-                        {messages.map((msg, idx) => (
-                            <div key={idx} className='bg-white text-black w-max p-2 m-2 rounded-xl'>{msg}</div>
-                        ))}
-                    </div>
-                    <div className='flex justify-between mb-2'>
-                        <input type='text' className='w-full mx-2 rounded-xl' value={text} onKeyDown={(e) => e.key === "Enter" && handleSend()} onChange={(e) => setText(e.target.value)}></input>
-                        <button className='bg-white w-20 h-8 mr-4 rounded-xl' onClick={handleSend}>Send</button>
-                    </div>
+            <div className=' flex flex-col h-screen bg-black'>
+                <div className='flex-1 overflow-y-auto'>
+                    {messages.map((msg, idx) => (
+                        <div key={idx} className={`m-4 flex ${msg.sender === username ? 'justify-end' : 'justify-start'}`}>
+                            <div className={`p-2 rounded-xl w-max max-w-xs break-words 
+                                ${msg.sender === username ? 'bg-blue-500 text-white' : 'bg-white text-black'}`}>
+                                <div className="text-xs mb-1 text-gray-300">
+                                    <strong>{msg.sender}</strong> at{' '}
+                                    {msg.timestamp}
+                                </div>
+                                <div>{msg.text}</div>
+                            </div>
+                            <div ref={scrollToEnd} />
+                        </div>
+
+                    ))}
+                </div>
+                <div className='flex justify-between mb-2'>
+                    <input type='text' className='w-full mx-2 rounded-xl' value={text} onKeyDown={(e) => e.key === "Enter" && handleSend()} onChange={(e) => setText(e.target.value)}></input>
+                    <button className='bg-white w-20 h-8 mr-4 rounded-xl' onClick={handleSend}>Send</button>
                 </div>
             </div>
+
         </>
     )
 }

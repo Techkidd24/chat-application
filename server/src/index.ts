@@ -28,7 +28,7 @@ wss.on("connection", (currUser: userInterface) => {
                 type: "chat",
                 sender: currUser.username,
                 text: message.text,
-                timestamp: Date.now()
+                timestamp: new Date().toLocaleTimeString()
             })
 
             wss.clients.forEach((client) => {
