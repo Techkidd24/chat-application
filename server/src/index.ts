@@ -8,7 +8,8 @@ interface userInterface extends WebSocket{
 
 
 //listening for connection events
-wss.on("connection", (currUser: userInterface) => {
+wss.on("connection", (socket) => {
+    const currUser = socket as userInterface;
     console.log("client connected");
 
     //listening for messages from THIS client
