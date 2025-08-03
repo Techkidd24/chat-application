@@ -29,7 +29,7 @@ wss.on("connection", (socket : WebSocket) => {
                 type: "chat",
                 sender: currUser.username,
                 text: message.text,
-                timestamp: new Date().toLocaleTimeString()
+                timestamp: new Date().toLocaleTimeString('en-IN', { timeZone: 'Asia/Kolkata' });
             })
 
             wss.clients.forEach((client: WebSocket) => {
