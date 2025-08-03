@@ -43,7 +43,7 @@ export function ChatRoom({ username }: chatUsername) {
             return;
         }
 
-        wsRef.current = new WebSocket("ws://localhost:8080");
+        wsRef.current = new WebSocket("wss://chat-application-techkidd-backend.onrender.com");
 
         wsRef.current.onopen = () => {
             console.log("Connected to websocket server")
