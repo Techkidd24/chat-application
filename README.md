@@ -22,6 +22,9 @@ https://chat-application-techkidd.vercel.app/
 - Easily scalable and maintainable codebase structure
 
 ---
+## 📝 Architecture Diagram
+
+![Chat Application UML](./assets/diagram.svg)
 
 ## 📦 Tech Stack
 
