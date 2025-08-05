@@ -24,7 +24,7 @@ https://chat-application-techkidd.vercel.app/
 ---
 ## 📝 Architecture Diagram
 
-![Chat Application UML](./assets/diagram.svg)
+![Chat Application UML](./assets/diagram.png)
 
 ## 📦 Tech Stack
 
